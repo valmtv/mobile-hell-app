@@ -1,0 +1,3 @@
+[submodule "hell-app"]
+	path = hell-app
+	url = https://github.com/LilConsul/hell-app
