@@ -1,3 +1,4 @@
 [submodule "hell-app"]
 	path = hell-app
 	url = https://github.com/LilConsul/hell-app
+	branch = mobile-hell-app-workaround

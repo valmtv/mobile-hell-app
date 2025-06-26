@@ -1,0 +1,2 @@
+echo "⎯⎯⎯ Running post-merge: updating hell-app submodule ⎯⎯⎯"
+git submodule update --remote --merge hell-app
