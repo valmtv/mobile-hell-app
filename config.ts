@@ -2,6 +2,7 @@ import { Platform } from 'react-native';
 import Constants from 'expo-constants';
 
 // Hardcoded from ifconfig
+// Put here ip of the host device if any can't reach api
 const MAC_IP = '10.60.81.201';
 const HTTP_PORT = 80; // From hell-app .env
 
@@ -33,12 +34,12 @@ if (__DEV__) {
   // Use HTTP mobile API endpoint to avoid certificate issues
   API_BASE_URL = `http://${host}:${HTTP_PORT}/mobile-api/v1`;
   
-  console.log('🔗 API_BASE_URL:', API_BASE_URL);
-  console.log('📱 Detected host from Expo:', detectedHost);
+  console.log('API_BASE_URL:', API_BASE_URL);
+  console.log('Detected host from Expo:', detectedHost);
   console.log('HARDCODED: Fallback host (Mac IP):', MAC_IP);
 } else {
   // Production in case i would like to play here more 
-  API_BASE_URL = 'https://your-production-domain.com/api/v1';
+  API_BASE_URL = 'https://production-domain.com/api/v1';
 }
 
 export { API_BASE_URL };
