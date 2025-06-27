@@ -1,19 +1,18 @@
 import '@/global.css';
-import { Slot } from 'expo-router';
 import React from 'react';
-import { AuthProvider } from '@/context/AuthContext';
-import { ThemeProvider } from '@/components/ThemeProvider';
+import { Slot } from 'expo-router';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
+import { AuthProvider } from '@/context/AuthContext';
 
 export default function Layout() {
   return (
     <SafeAreaProvider>
-      <ThemeProvider>
+      <GluestackUIProvider mode="system">
         <AuthProvider>
           <Slot />
         </AuthProvider>
-      </ThemeProvider>
+      </GluestackUIProvider>
     </SafeAreaProvider>
   );
 }
-

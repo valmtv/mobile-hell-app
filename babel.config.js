@@ -1,9 +1,10 @@
-module.exports = function (api) {
+module.exports = function(api) {
   api.cache(true);
   return {
+    ignore: ["hell-app/**"],
     presets: [
       ["babel-preset-expo", { jsxImportSource: "nativewind" }],
-      "nativewind/babel",
+      "nativewind/babel"
     ],
     plugins: [
       [
@@ -12,9 +13,12 @@ module.exports = function (api) {
           root: ["./"],
           alias: {
             "@": "./",
+            // Alias react-dom to react-native
+            "react-dom": "react-native"
           },
-        },
-      ],
-    ],
-  };
-};
+          extensions: [".js", ".jsx", ".ts", ".tsx"]
+        }
+      ]
+     ]
+   };
+ };

@@ -1,9 +1,11 @@
 {
   "extends": "expo/tsconfig.base",
+  "exclude": ["hell-app", "node_modules"],
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "tailwind.config": ["./tailwind.config.js"]
     }
   }
 }
