@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { ScrollView } from 'react-native';
-import { User, LogOut } from '@/components/Icons';
+import { User, LogOut, BookOpen, Plus } from '@/components/Icons';
 import { Box } from '@/components/ui/box';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
@@ -51,8 +51,8 @@ export default function HomeScreen() {
       contentContainerStyle={{ flexGrow: 1 }}
       showsVerticalScrollIndicator={false}
     >
-      <Box className="flex-1 px-6 py-12 bg-background-0">
-        {/* Header - Fixed Layout for Perfect Centering */}
+      <Box className="flex-1 px-6 pt-16 pb-12 bg-background-0">
+        {/* Header */}
         <Box className="mb-8 relative">
           {/* Centered Content */}
           <Box className="items-center">
@@ -64,7 +64,7 @@ export default function HomeScreen() {
             </Text>
           </Box>
           
-          {/* Absolutely Positioned User Menu */}
+          {/* User Menu */}
           <Box className="absolute top-0 right-0">
             <UserMenu onSignOut={handleSignOut} />
           </Box>
@@ -109,6 +109,38 @@ export default function HomeScreen() {
           )}
         </Card>
 
+        {/* Test Collections Section */}
+        <Card className="w-full max-w-sm mx-auto mb-6 bg-background-50 p-5 rounded-xl shadow-soft-1 border border-outline-200">
+          <Heading size="md" className="text-center mb-2 text-typography-900">
+            Test Collections
+          </Heading>
+          <Text size="sm" className="text-center text-typography-600 mb-5">
+            Manage your test collections and create new ones
+          </Text>
+          
+          <Box className="space-y-4">
+            <Button
+              onPress={navigateToTestCollections}
+              size="md"
+              variant="outline"
+              className="w-full border-primary-300 bg-background-0 active:bg-primary-50"
+            >
+              <BookOpen className="w-4 h-4 stroke-primary-600" />
+              <Text className="text-primary-600 font-medium ml-2">View Test Collections</Text>
+            </Button>
+
+            <Button
+              onPress={navigateToCreateTestCollection}
+              size="md"
+              variant="outline"
+              className="w-full border-success-300 bg-background-0 active:bg-success-50"
+            >
+              <Plus className="w-4 h-4 stroke-success-600" />
+              <Text className="text-success-600 font-medium ml-2">Create Test Collection</Text>
+            </Button>
+          </Box>
+        </Card>
+
         {/* Sign Out Card */}
         <Card className="w-full max-w-sm mx-auto mb-6 bg-background-50 p-4 rounded-xl shadow-soft-1 border border-outline-200">
           <Button
@@ -117,7 +149,7 @@ export default function HomeScreen() {
             variant="outline"
             className="w-full border-error-300 bg-background-error active:bg-error-100"
           >
-            <LogOut className="w-[18px] h-[18px] stroke-error-600" />
+            <LogOut className="w-4 h-4 stroke-error-600" />
             <Text className="text-error-600 font-medium ml-2">Sign Out</Text>
           </Button>
         </Card>
