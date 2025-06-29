@@ -5,7 +5,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { AlertTriangle, Eye, EyeOff } from 'lucide-react-native';
+import { AlertTriangle, Eye, EyeOff } from '@/components/Icons';
 import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -138,7 +138,7 @@ export default function LoginScreen() {
             {/* Global Error */}
             {loginError && (
               <Alert action="error" variant="outline" className="mb-6 bg-background-error border-error-300">
-                <AlertIcon as={AlertTriangle} className="text-error-600" />
+                <AlertIcon as={AlertTriangle} className="w-5 h-5 stroke-error-600" />
                 <AlertText className="text-error-700 font-medium">
                   {loginError}
                 </AlertText>
@@ -227,9 +227,9 @@ export default function LoginScreen() {
                         style={{ transform: [{ translateY: -12 }] }}
                       >
                         {showPassword ? (
-                          <EyeOff size={20} className="text-typography-500" />
+                          <EyeOff className="w-5 h-5 stroke-typography-500" />
                         ) : (
-                          <Eye size={20} className="text-typography-500" />
+                          <Eye className="w-5 h-5 stroke-typography-500" />
                         )}
                       </TouchableOpacity>
                     </Box>

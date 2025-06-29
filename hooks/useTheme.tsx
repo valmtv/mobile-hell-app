@@ -1,8 +1,7 @@
 import { useColorScheme } from 'nativewind';
 import { useState, useEffect } from 'react';
-import { script } from '@/components/ui/gluestack-ui-provider/script';
 
-export type ThemeMode = 'light' | 'dark' | 'system';
+export type ThemeMode = 'light' | 'dark' | 'system' | undefined;
 
 export function useTheme() {
   const { colorScheme, setColorScheme } = useColorScheme();
