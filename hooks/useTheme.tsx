@@ -1,12 +1,15 @@
 import { useColorScheme } from 'nativewind';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { script } from '@/components/ui/gluestack-ui-provider/script';
 
 export type ThemeMode = 'light' | 'dark' | 'system';
 
 export function useTheme() {
   const { colorScheme, setColorScheme } = useColorScheme();
-  const [themeMode, setThemeMode] = useState<ThemeMode>('system');
+  const [themeMode, setThemeMode] = useState<ThemeMode>(colorScheme);
+  useEffect(() => {
+    console.log('Current theme mode:', themeMode);
+  }, [themeMode]);
 
   const toggleTheme = () => {
     const nextTheme: ThemeMode = themeMode === 'light' ? 'dark' : 'light';

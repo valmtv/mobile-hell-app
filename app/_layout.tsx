@@ -8,7 +8,7 @@ import { AuthProvider } from '@/context/AuthContext';
 export default function Layout() {
   return (
     <SafeAreaProvider>
-      <GluestackUIProvider mode="system">
+      <GluestackUIProvider mode="light">
         <AuthProvider>
           <Slot />
         </AuthProvider>
