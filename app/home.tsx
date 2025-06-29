@@ -1,39 +1,134 @@
 import React, { useEffect } from 'react';
-import { View, ActivityIndicator } from 'react-native';
-import { Text } from '@/components/Text';
-import { Button } from '@/components/Button';
+import { ScrollView } from 'react-native';
+import { User, LogOut } from '@/components/Icons';
+import { Box } from '@/components/ui/box';
+import { Text } from '@/components/ui/text';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Badge, BadgeText } from '@/components/ui/badge';
+import { Heading } from '@/components/ui/heading';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'expo-router';
+import { UserMenu } from '@/components/UserMenu';
+import { HomeSkeleton } from '@/components/skeletons/HomeSkeleton';
 
 export default function HomeScreen() {
-  const { userToken, loading: authLoading, signOut } = useAuth();
+  const {
+    userToken,
+    userData,
+    loading: authLoading,
+    isTokenValid,
+    signOut,
+  } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!authLoading && !userToken) {
-      // Not logged in, redirect to login
+    if (!authLoading && (!userToken || !isTokenValid)) {
       router.replace('/login');
     }
-  }, [authLoading, userToken]);
+  }, [authLoading, userToken, isTokenValid, router]);
 
-  if (authLoading || !userToken) {
-    return (
-      <View className="flex-1 justify-center items-center">
-        <ActivityIndicator size="large" />
-      </View>
-    );
+  const handleSignOut = async () => {
+    await signOut();
+    router.replace('/login');
+  };
+
+  const navigateToTestCollections = () => {
+    router.push('/test-collections');
+  };
+
+  const navigateToCreateTestCollection = () => {
+    router.push('/create-test-collection');
+  };
+
+  if (authLoading || !userToken || !isTokenValid) {
+    return <HomeSkeleton />;
   }
 
   return (
-    <View className="flex-1 justify-center items-center px-6">
-      <Text className="text-2xl font-bold mb-4">Welcome!</Text>
-      <Text className="mb-6">You are logged in. Token: {userToken.substring(0, 20)}...</Text>
-      <Button onPress={async () => {
-        await signOut();
-      }}>
-        <Text>Sign Out</Text>
-      </Button>
-    </View>
+    <ScrollView
+      style={{ flex: 1 }}
+      contentContainerStyle={{ flexGrow: 1 }}
+      showsVerticalScrollIndicator={false}
+    >
+      <Box className="flex-1 px-6 py-12 bg-background-0">
+        {/* Header - Fixed Layout for Perfect Centering */}
+        <Box className="mb-8 relative">
+          {/* Centered Content */}
+          <Box className="items-center">
+            <Heading size="lg" className="text-center mb-2 text-typography-900">
+              Welcome Home!
+            </Heading>
+            <Text size="md" className="text-center text-typography-600">
+              You're successfully logged in.
+            </Text>
+          </Box>
+          
+          {/* Absolutely Positioned User Menu */}
+          <Box className="absolute top-0 right-0">
+            <UserMenu onSignOut={handleSignOut} />
+          </Box>
+        </Box>
+
+        {/* Account Info Card */}
+        <Card className="w-full max-w-sm mx-auto mb-6 bg-background-50 p-5 rounded-xl shadow-soft-2 border border-outline-200">
+          <Heading size="md" className="text-center mb-5 text-typography-900">
+            Account Information
+          </Heading>
+
+          {userData ? (
+            <Box className="space-y-4">
+              <Box className="flex-row justify-between items-center py-3 border-b border-outline-200">
+                <Text className="font-medium text-typography-600 text-sm">Name</Text>
+                <Text numberOfLines={1} className="text-typography-900 flex-1 text-right font-medium">
+                  {userData.first_name} {userData.last_name}
+                </Text>
+              </Box>
+
+              <Box className="flex-row justify-between items-center py-3 border-b border-outline-200">
+                <Text className="font-medium text-typography-600 text-sm">Email</Text>
+                <Text numberOfLines={1} className="text-typography-900 flex-1 text-right font-medium text-sm">
+                  {userData.email}
+                </Text>
+              </Box>
+
+              <Box className="flex-row justify-between items-center py-3">
+                <Text className="font-medium text-typography-600 text-sm">Role</Text>
+                <Badge variant="solid" className="bg-secondary-100">
+                  <BadgeText className="text-secondary-700 font-medium text-xs uppercase">
+                    {userData.role}
+                  </BadgeText>
+                </Badge>
+              </Box>
+            </Box>
+          ) : (
+            <Box className="flex-row items-center justify-center py-8">
+              <User className="w-5 h-5 stroke-typography-400" />
+              <Text className="text-center text-typography-600 ml-2">No user data available.</Text>
+            </Box>
+          )}
+        </Card>
+
+        {/* Sign Out Card */}
+        <Card className="w-full max-w-sm mx-auto mb-6 bg-background-50 p-4 rounded-xl shadow-soft-1 border border-outline-200">
+          <Button
+            onPress={handleSignOut}
+            size="md"
+            variant="outline"
+            className="w-full border-error-300 bg-background-error active:bg-error-100"
+          >
+            <LogOut className="w-[18px] h-[18px] stroke-error-600" />
+            <Text className="text-error-600 font-medium ml-2">Sign Out</Text>
+          </Button>
+        </Card>
+
+        {/* Footer */}
+        <Box className="mt-6">
+          <Text size="xs" className="text-center text-typography-500">
+            Manage your account settings using the menu above.
+          </Text>
+        </Box>
+      </Box>
+    </ScrollView>
   );
 }
-
