@@ -1,5 +1,9 @@
 import { wrapIcon } from "@/lib/wrapIcon.ts";
-import { LucideSun, LucideMoon, LucideArrowRight, LucideMoreVertical, LucideUser, LucideLogOut, LucidePalette, LucideAlertTriangle, LucideEye, LucideEyeOff } from "lucide-react-native";
+import { 
+  LucideSun, LucideMoon, LucideArrowRight, LucideMoreVertical, LucideUser,
+  LucideLogOut, LucidePalette, LucideAlertTriangle, LucideEye, LucideEyeOff,
+  LucideBookOpen, LucidePlus
+} from "lucide-react-native";
 
 export const Sun = wrapIcon(LucideSun);
 export const Moon = wrapIcon(LucideMoon);
@@ -11,3 +15,5 @@ export const Palette = wrapIcon(LucidePalette);
 export const AlertTriangle = wrapIcon(LucideAlertTriangle);
 export const Eye = wrapIcon(LucideEye);
 export const EyeOff = wrapIcon(LucideEyeOff);
+export const BookOpen = wrapIcon(LucideBookOpen);
+export const Plus = wrapIcon(LucidePlus);
