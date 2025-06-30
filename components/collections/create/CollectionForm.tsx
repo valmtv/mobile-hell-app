@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, TextInput, Text } from 'react-native';
 import { Control, Controller, FieldErrors } from 'react-hook-form';
 import { Box } from '@/components/ui/box';
-import { FormControl, FormControlLabelText } from '@/components/ui/form-control';
+import { FormControl, FormControlLabel, FormControlLabelText } from '@/components/ui/form-control';
+import { Input, InputField } from '@/components/ui/input';
 import { Textarea, TextareaInput } from '@/components/ui/textarea';
 import { Button, ButtonText } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 
 interface FormData {
   title: string;
@@ -21,82 +22,6 @@ interface CollectionFormProps {
   isNewCollection?: boolean;
 }
 
-interface InputFieldProps {
-  label: string;
-  placeholder?: string;
-  value: string;
-  onChangeText: (text: string) => void;
-  errorMessage?: string;
-  editable?: boolean;
-}
-
-interface TextAreaProps {
-  label: string;
-  placeholder?: string;
-  value: string;
-  onChangeText: (text: string) => void;
-  editable?: boolean;
-}
-
-const InputField: React.FC<InputFieldProps> = ({ 
-  label, 
-  placeholder,
-  value,
-  onChangeText,
-  errorMessage, 
-  editable = true 
-}) => (
-  <FormControl isRequired className="mb-4">
-    <FormControlLabelText className="mb-2">{label}</FormControlLabelText>
-    <Box className={`border rounded-lg p-3 ${
-      editable 
-        ? 'border-outline-300 bg-background-0' 
-        : 'border-outline-200 bg-background-50'
-    }`}>  
-      <TextInput
-        editable={editable}
-        className="text-base text-typography-900"
-        placeholder={placeholder}
-        placeholderTextColor="#a1a1aa"
-        value={value}
-        onChangeText={onChangeText}
-      />
-    </Box>
-    {errorMessage && (
-      <Text className="text-error-500 text-sm mt-1">{errorMessage}</Text>
-    )}
-  </FormControl>
-);
-
-const TextArea: React.FC<TextAreaProps> = ({ 
-  label, 
-  placeholder, 
-  value, 
-  onChangeText, 
-  editable = true 
-}) => (
-  <FormControl className="mb-6">
-    <FormControlLabelText className="mb-2">{label}</FormControlLabelText>
-    <Box className={`border rounded-lg p-3 min-h-[100px] ${
-      editable 
-        ? 'border-outline-300 bg-background-0' 
-        : 'border-outline-200 bg-background-50'
-    }`}>      
-      <Textarea>
-        <TextareaInput
-          editable={editable}
-          multiline
-          numberOfLines={4}
-          placeholder={placeholder}
-          value={value}
-          onChangeText={onChangeText}
-          placeholderTextColor="#a1a1aa"
-          className="text-typography-900"
-        />
-      </Textarea>
-    </Box>
-  </FormControl>
-);
 
 export const CollectionForm: React.FC<CollectionFormProps> = ({
   control,
@@ -120,19 +45,34 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
   };
 
   return (
-    <View className="px-4 py-6">
+    <Box className="px-4 py-6">
       <Controller
         control={control}
         name="title"
         render={({ field }) => (
-          <InputField
-            label="Collection Title"
-            placeholder="Enter collection title"
-            value={field.value}
-            onChangeText={field.onChange}
-            errorMessage={errors.title?.message}
-            editable={canEdit}
-          />
+          <FormControl isRequired className="mb-4">
+            <FormControlLabel>
+              <FormControlLabelText className="mb-2">Collection Title</FormControlLabelText>
+            </FormControlLabel>
+            <Input
+              variant="outline"
+              size="md"
+              isRequired
+              isInvalid={!!errors.title}
+              isDisabled={!canEdit}
+            >
+              <InputField
+                placeholder="Enter collection title"
+                value={field.value}
+                onChangeText={field.onChange}
+                selectTextOnFocus
+                editable={canEdit}
+              />
+            </Input>
+            {errors.title?.message && (
+              <Text className="text-error-500 text-sm mt-1">{errors.title.message}</Text>
+            )}
+          </FormControl>
         )}
       />
 
@@ -140,13 +80,24 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
         control={control}
         name="description"
         render={({ field }) => (
-          <TextArea
-            label="Description"
-            placeholder="Enter description (optional)"
-            value={field.value || ''}
-            onChangeText={field.onChange}
-            editable={canEdit}
-          />
+          <FormControl className="mb-6">
+            <FormControlLabel>
+              <FormControlLabelText className="mb-2">Description</FormControlLabelText>
+            </FormControlLabel>
+            <Textarea size="md" className="min-h-[100px]" isDisabled={!canEdit}>
+              <TextareaInput
+                placeholder="Enter description (optional)"
+                value={field.value || ''}
+                onChangeText={field.onChange}
+                selectTextOnFocus
+                editable={canEdit}
+                multiline
+                numberOfLines={4}
+                className="text-typography-900"
+                placeholderTextColor="#a1a1aa"
+              />
+            </Textarea>
+          </FormControl>
         )}
       />
 
@@ -163,6 +114,6 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
           </ButtonText>
         </Button>
       )}
-    </View>
+    </Box>
   );
 };
