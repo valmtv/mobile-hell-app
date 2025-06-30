@@ -5,7 +5,7 @@ import {
   LucideBookOpen, LucidePlus, LucideSearch, LucideFilter, LucideSortAsc, LucideGlobe,
   LucideLock, LucideArchive, LucideLibrary, LucideCalendar, LucideNotebookPen,
   LucideMoreHorizontal, LucideCopy, LucideTrash2, LucideRefreshCw, LucideHome,
-  LucideCheck, LucideFileText
+  LucideCheck, LucideFileText, LucideEdit3, LucideHelpCircle
 } from "lucide-react-native";
 
 export const Sun = wrapIcon(LucideSun);
@@ -36,3 +36,5 @@ export const RefreshCw = wrapIcon(LucideRefreshCw);
 export const Home = wrapIcon(LucideHome);
 export const Check = wrapIcon(LucideCheck);
 export const FileText = wrapIcon(LucideFileText);
+export const Edit3 = wrapIcon(LucideEdit3);
+export const HelpCircle = wrapIcon(LucideHelpCircle);

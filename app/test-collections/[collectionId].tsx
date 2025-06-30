@@ -6,10 +6,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useToast } from '@/components/ui/toast';
 import { HStack } from '@/components/ui/hstack';
+import { Text } from '@/components/ui/text';
 
 import { useAuth } from '@/context/AuthContext';
 import { useCollectionAPI, Collection } from '@/services/collection-api';
-import { Home, BookOpen } from '@/components/Icons';
+import { Home, BookOpen, HelpCircle } from '@/components/Icons';
 import { CollectionForm } from '@/components/collections/create/CollectionForm';
 import { StatusIndicator } from '@/components/collections/create/StatusIndicator';
 import { Button, ButtonText } from '@/components/ui/button';
@@ -212,9 +213,15 @@ export default function CollectionDetailPage() {
           <TouchableOpacity onPress={() => router.push('/test-collections')}>        
             <BookOpen className="w-6 h-6 stroke-primary-600" />
           </TouchableOpacity>
+          <TouchableOpacity onPress={() => router.push(`/test-collections/${collectionId}/questions`)}>   
+            <HStack space="sm" className='items-center'>
+              <HelpCircle className="w-6 h-6 stroke-primary-600" />
+              <Text className="text-xs text-primary-600">Questions</Text>
+            </HStack>
+          </TouchableOpacity>
         </HStack>
 
-        {/* Right side: Status Indicator */}
+        {/* Right side: Status Indicator - only clickable if user is owner */}
         <StatusIndicator 
           status={collection.status} 
           onStatusChange={isOwner ? handleStatusChange : undefined}

@@ -25,12 +25,13 @@ export interface Collection {
   questions?: Question[];
 }
 
-interface Question {
+export interface Question {
   id: string;
   question_text: string;
   type: 'mcq' | 'singlechoice' | 'shortanswer';
   weight: number;
   has_katex: boolean;
+  position: number;
   correct_input_answer?: string;
   options?: QuestionOption[];
 }
