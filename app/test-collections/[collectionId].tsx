@@ -7,6 +7,7 @@ import { z } from 'zod';
 import { useToast } from '@/components/ui/toast';
 import { HStack } from '@/components/ui/hstack';
 import { Text } from '@/components/ui/text';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useAuth } from '@/context/AuthContext';
 import { useCollectionAPI, Collection } from '@/services/collection-api';
@@ -32,6 +33,7 @@ export default function CollectionDetailPage() {
   const [collection, setCollection] = useState<Collection | null>(null);
   const [loading, setLoading] = useState(true);
   const [showDuplicate, setShowDuplicate] = useState(false);
+  const insets = useSafeAreaInsets();
 
   const {
     control,
@@ -202,32 +204,39 @@ export default function CollectionDetailPage() {
   return (
     <SafeAreaView className="flex-1 bg-background-0">
       <Stack.Screen options={{ title: collection.title }} />
-      
-      {/* Header */}
-      <View className="flex-row items-center justify-between px-4 py-3 border-b border-outline-200">
-        {/* Left side: Icons */}
-        <HStack space="md" className='items-center'>
-          <TouchableOpacity onPress={() => router.push('/')}>        
-            <Home size={24} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => router.push('/test-collections')}>        
-            <BookOpen className="w-6 h-6 stroke-primary-600" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => router.push(`/test-collections/${collectionId}/questions`)}>   
-            <HStack space="sm" className='items-center'>
-              <HelpCircle className="w-6 h-6 stroke-primary-600" />
-              <Text className="text-xs text-primary-600">Questions</Text>
-            </HStack>
-          </TouchableOpacity>
-        </HStack>
+      <View 
+        style={{
+          paddingTop: insets.top, // use safe area insets for top padding
+        }}
+      >
+        {/* Header */}
+        <View className="flex-row items-center justify-between px-4 py-3 border-b border-outline-200">
+          {/* Left side: Icons */}
+          <HStack space="md" className='items-center'>
+            <TouchableOpacity onPress={() => router.push('/')}>        
+              <Home className='w-6 h-6 stroke-primary-600' />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => router.push('/test-collections')}>        
+              <BookOpen className="w-6 h-6 stroke-primary-600" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => router.push(`/test-collections/${collectionId}/questions`)}>   
+              <HStack space="sm" className='items-center'>
+                <HelpCircle className="w-6 h-6 stroke-primary-600" />
+                <Text className="text-xs text-primary-600">Questions</Text>
+              </HStack>
+            </TouchableOpacity>
+          </HStack>
 
-        {/* Right side: Status Indicator - only clickable if user is owner */}
-        <StatusIndicator 
-          status={collection.status} 
-          onStatusChange={isOwner ? handleStatusChange : undefined}
-          isClickable={isOwner}
-        />
+          {/* Right side: Status Indicator - only clickable if user is owner */}
+          <StatusIndicator 
+            status={collection.status} 
+            onStatusChange={isOwner ? handleStatusChange : undefined}
+            isClickable={isOwner}
+          />
+        </View>
       </View>
+
+      {/* Collection Form */}
 
       <CollectionForm
         control={control}
