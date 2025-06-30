@@ -47,7 +47,7 @@ interface CollectionsResponse {
 
 interface CreateCollectionData {
   title: string;
-  description: string;
+  description: string | undefined;
   status?: 'draft' | 'published' | 'archived';
 }
 

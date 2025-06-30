@@ -71,7 +71,7 @@ const CollectionsScreen = () => {
   );
 
   const navigateToNew = useCallback(() => {
-    router.push('/collections/new');
+    router.push('/test-collections/new');
   }, []);
 
   const navigateToHome = useCallback(() => router.push('/home'), []);
