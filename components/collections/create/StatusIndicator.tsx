@@ -7,6 +7,9 @@ import {
   PopoverContent,
   PopoverBody,
 } from '@/components/ui/popover';
+import { HStack } from '@/components/ui/hstack';
+import { VStack } from '@/components/ui/vstack';
+import { Button } from '@/components/ui/button';
 
 interface StatusIndicatorProps {
   status: 'draft' | 'published' | 'archived';
@@ -50,13 +53,20 @@ const getStatusTextColor = (status: string) => {
   }
 };
 
+const getStatusLabel = (status: string) => {
+  if (status === 'published') {
+    return 'Public';
+  }
+  return status.charAt(0).toUpperCase() + status.slice(1);
+};
+
 export const StatusIndicator: React.FC<StatusIndicatorProps> = ({ 
   status, 
   onStatusChange, 
   isClickable = false 
 }) => {
   const [showPopover, setShowPopover] = useState(false);
-  const label = status.charAt(0).toUpperCase() + status.slice(1);
+  const label = getStatusLabel(status);
 
   const handleStatusSelect = (newStatus: 'draft' | 'published' | 'archived') => {
     onStatusChange?.(newStatus);
@@ -66,7 +76,10 @@ export const StatusIndicator: React.FC<StatusIndicatorProps> = ({
   const getAvailableOptions = () => {
     switch (status) {
       case 'draft':
-        return [{ key: 'published', label: 'Make Public', icon: Globe, color: 'text-success-600' }];
+        return [
+          { key: 'published', label: 'Make Public', icon: Globe, color: 'text-success-600' },
+          { key: 'archived', label: 'Archive', icon: Archive, color: 'text-typography-600' }
+        ];
       case 'published':
         return [
           { key: 'draft', label: 'Make Draft', icon: FileText, color: 'text-typography-600' },
@@ -80,11 +93,13 @@ export const StatusIndicator: React.FC<StatusIndicatorProps> = ({
   };
 
   const StatusContent = (
-    <View className={`flex-row items-center px-3 py-2 rounded-full border ${getStatusColor(status)}`}>
-      <StatusIcon status={status} />
-      <Text className={`ml-2 text-sm font-medium ${getStatusTextColor(status)}`}>
-        {label}
-      </Text>
+    <View className={`px-3 py-2 rounded-full border ${getStatusColor(status)}`}>
+      <HStack space="sm" className='items-center'>
+        <StatusIcon status={status} />
+        <Text className={`text-sm font-medium ${getStatusTextColor(status)}`}>
+          {label}
+        </Text>
+      </HStack>
     </View>
   );
 
@@ -106,25 +121,31 @@ export const StatusIndicator: React.FC<StatusIndicatorProps> = ({
       )}
     >
       <PopoverBackdrop />
-      <PopoverContent className="w-48">
-        <PopoverBody className="p-0">
-          {getAvailableOptions().map((option) => {
-            const IconComponent = option.icon;
-            return (
-              <TouchableOpacity
-                key={option.key}
-                onPress={() => handleStatusSelect(option.key as any)}
-                className="flex-row items-center px-4 py-3 border-b border-outline-100 last:border-b-0"
-              >
-                <IconComponent className={`w-4 h-4 ${option.color.replace('text-', 'stroke-')}`} />
-                <Text className={`ml-3 text-sm ${option.color}`}>
-                  {option.label}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
+      <PopoverContent className="min-w-[200px] w-auto">
+        <PopoverBody className="p-2">
+          <VStack space="xs">
+            {getAvailableOptions().map((option) => {
+              const IconComponent = option.icon;
+              return (
+                <Button
+                  key={option.key}
+                  variant="outline"
+                  onPress={() => handleStatusSelect(option.key as any)}
+                  className="justify-start"
+                >
+                  <HStack space="sm" className="items-center">
+                    <IconComponent className={`w-4 h-4 ${option.color.replace('text-', 'stroke-')}`} />
+                    <Text className={`text-sm ${option.color}`}>
+                      {option.label}
+                    </Text>
+                  </HStack>
+                </Button>
+              );
+            })}
+          </VStack>
         </PopoverBody>
       </PopoverContent>
+
     </Popover>
   );
 };

@@ -22,7 +22,6 @@ interface CollectionFormProps {
   isNewCollection?: boolean;
 }
 
-
 export const CollectionForm: React.FC<CollectionFormProps> = ({
   control,
   errors,
@@ -41,7 +40,7 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
 
   const shouldShowButton = () => {
     if (isNewCollection) return true;
-    return canEdit && isDirty;
+    return canEdit;
   };
 
   return (
@@ -65,7 +64,6 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
                 placeholder="Enter collection title"
                 value={field.value}
                 onChangeText={field.onChange}
-                selectTextOnFocus
                 editable={canEdit}
               />
             </Input>
@@ -89,7 +87,6 @@ export const CollectionForm: React.FC<CollectionFormProps> = ({
                 placeholder="Enter description (optional)"
                 value={field.value || ''}
                 onChangeText={field.onChange}
-                selectTextOnFocus
                 editable={canEdit}
                 multiline
                 numberOfLines={4}
