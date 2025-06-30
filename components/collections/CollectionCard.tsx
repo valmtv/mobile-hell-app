@@ -87,10 +87,6 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
     router.push(`/test-collections/${collection.id}`);
   }, [collection.id]);
 
-  const handleViewPress = useCallback(() => {
-    router.push(`/test-collections/${collection.id}`);
-  }, [collection.id]);
-
   const handleCreateExamPress = useCallback(() => {
     router.push(`/exams/new?collectionId=${collection.id}`);
   }, [collection.id]);
@@ -150,7 +146,7 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
           <Button
             variant="outline"
             size="sm"
-            onPress={handleViewPress}
+            onPress={handlePress}
           >
             <ButtonIcon as={Eye} size="sm" className="mr-2" />
             <ButtonText>View</ButtonText>

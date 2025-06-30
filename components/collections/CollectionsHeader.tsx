@@ -88,7 +88,7 @@ const CollectionsHeader: React.FC<CollectionsHeaderProps> = ({
             className="p-2"
             disabled={disabled}
           >
-            <ButtonIcon as={Home} size="sm" />
+            <ButtonIcon as={Home} size="md" />
           </Button>
           <VStack className="flex-1 min-w-0">
             <Text className="text-2xl font-bold text-typography-900">Test Collections</Text>

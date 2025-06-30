@@ -73,6 +73,7 @@ export const DuplicateModal: React.FC<DuplicateModalProps> = ({
                   placeholder="Enter collection title"
                   value={title}
                   onChangeText={onTitleChange}
+                  selectTextOnFocus
                 />
               </Input>
             </FormControl>
@@ -89,6 +90,7 @@ export const DuplicateModal: React.FC<DuplicateModalProps> = ({
                   placeholder="Enter collection description (optional)"
                   value={description}
                   onChangeText={onDescriptionChange}
+                  selectTextOnFocus
                 />
               </Textarea>
             </FormControl>
