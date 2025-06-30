@@ -37,7 +37,7 @@ const getStatusColor = (status: string) => {
       return 'bg-typography-50 border-typography-200';
     case 'draft':
     default:
-      return 'bg-typography-50 border-typography-200';
+      return 'bg-typography-0 border-typography-200';
   }
 };
 

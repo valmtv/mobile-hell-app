@@ -6,6 +6,7 @@ import { HStack } from '@/components/ui/hstack';
 import { VStack } from '@/components/ui/vstack';
 import { Text } from '@/components/ui/text';
 import { Button, ButtonText, ButtonIcon } from '@/components/ui/button';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useAuth } from '@/context/AuthContext';
 import { useCollectionAPI, Collection } from '@/services/collection-api';
@@ -33,15 +34,15 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question, canEdit, onEdit, 
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'mcq': return 'bg-blue-50 text-blue-700 border-blue-200';
-      case 'singlechoice': return 'bg-green-50 text-green-700 border-green-200';
-      case 'shortanswer': return 'bg-purple-50 text-purple-700 border-purple-200';
-      default: return 'bg-gray-50 text-gray-700 border-gray-200';
+      case 'mcq': return 'bg-info-50 text-info-700 border-info-200';
+      case 'singlechoice': return 'bg-success-50 text-success-700 border-success-200';
+      case 'shortanswer': return 'bg-tertiary-50 text-tertiary-700 border-tertiary-200';
+      default: return 'bg-background-100 text-typography-700 border-outline-200';
     }
   };
 
   return (
-    <View className="bg-white border border-outline-200 rounded-lg p-4 mb-3">
+    <View className="bg-background-0 border border-outline-200 rounded-lg p-4 mb-3">
       <HStack className="justify-between items-start mb-3">
         <View className="flex-1 mr-3">
           <HStack className="items-center mb-2">
@@ -76,11 +77,11 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question, canEdit, onEdit, 
               className={`flex-row items-center p-2 rounded border ${
                 option.is_correct 
                   ? 'bg-success-50 border-success-200' 
-                  : 'bg-gray-50 border-gray-200'
+                  : 'bg-background-0 border-outline-200'
               }`}
             >
               <View className={`w-3 h-3 rounded-full mr-2 ${
-                option.is_correct ? 'bg-success-500' : 'bg-gray-300'
+                option.is_correct ? 'bg-success-500' : 'bg-outline-400'
               }`} />
               <Text className={`text-sm ${
                 option.is_correct ? 'text-success-700 font-medium' : 'text-typography-700'
@@ -113,7 +114,7 @@ export default function QuestionsPage() {
   const { getCollection, deleteQuestion, updateCollectionStatus } = useCollectionAPI();  
   const [collection, setCollection] = useState<Collection | null>(null);
   const [loading, setLoading] = useState(true);
-
+  const insets = useSafeAreaInsets();
 
   // fetch collection and questions on mount
   useEffect(() => {
@@ -205,7 +206,6 @@ export default function QuestionsPage() {
       });
     }
   };
-
 
   if (loading) {
     return (
@@ -318,32 +318,34 @@ export default function QuestionsPage() {
   return (
     <SafeAreaView className="flex-1 bg-background-0">
       <Stack.Screen options={{ title: `${collection.title} - Questions` }} />
-      
-      {/* Header */}
-      <View className="flex-row items-center justify-between px-4 py-3 border-b border-outline-200">
-        {/* Left side: Navigation Icons */}
-        <HStack space="md" className='items-center'>
-          <TouchableOpacity onPress={() => router.push('/')}>        
-            <Home size={24} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => router.push('/test-collections')}>        
-            <BookOpen className="w-6 h-6 stroke-primary-600" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => router.push(`/test-collections/${collectionId}`)}>        
-            <Text className="text-primary-600 font-medium">Back to Collection</Text>
-          </TouchableOpacity>
-        </HStack>
 
-        {/* Right side: Status Indicator */}
-        <StatusIndicator 
-          status={collection.status} 
-          onStatusChange={isOwner ? handleStatusChange : undefined}
-          isClickable={isOwner}
-        />
-      </View>
+        <View style={{ paddingTop: insets.top }}>
+          {/* Header */}
+          <View className="flex-row items-center justify-between px-4 py-3 border-b border-outline-200 bg-background-0">
+            {/* Left side: Navigation Icons */}
+            <HStack space="md" className='items-center'>
+              <TouchableOpacity onPress={() => router.push('/')}>        
+                <Home className='w-6 h-6 stroke-primary-600' />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => router.push('/test-collections')}>        
+                <BookOpen className="w-6 h-6 stroke-primary-600" />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => router.push(`/test-collections/${collectionId}`)}>        
+                <Text className="text-primary-600 font-medium">Back to Collection</Text>
+              </TouchableOpacity>
+            </HStack>
+
+            {/* Right side: Status Indicator */}
+            <StatusIndicator 
+              status={collection.status} 
+              onStatusChange={isOwner ? handleStatusChange : undefined}
+              isClickable={isOwner}
+            />
+          </View>
+        </View>
 
       {/* Questions Header */}
-      <View className="flex-row items-center justify-between px-4 py-4 bg-gray-50 border-b border-outline-200">
+      <View className="flex-row items-center justify-between px-4 py-4 bg-background-0 border-b border-outline-200">
         <VStack>
           <Text className="text-lg font-semibold text-typography-900">Questions</Text>
           <Text className="text-sm text-typography-600">

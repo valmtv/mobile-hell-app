@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useToast } from '@/components/ui/toast';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useCollectionAPI } from '@/services/collection-api';
 import { Home, BookOpen } from '@/components/Icons';
@@ -24,6 +25,7 @@ export default function NewCollectionPage() {
   const router = useRouter();
   const toast = useToast();
   const { createCollection } = useCollectionAPI();
+  const insets = useSafeAreaInsets();
 
   const {
     control,
@@ -58,7 +60,7 @@ export default function NewCollectionPage() {
         },
       });
 
-      router.replace(`/test-collections/${res.data.collection_id}`);
+      router.replace(`/test-collections/${res.data.collection_id}/questions`);
     } catch (error) {
       toast.show({
         placement: 'bottom',
@@ -85,13 +87,14 @@ export default function NewCollectionPage() {
   return (
     <SafeAreaView className="flex-1 bg-background-0">
       <Stack.Screen options={{ title: 'Create Test Collection' }} />
-      
+
+      <View style={{ paddingTop: insets.top }} />
       {/* Header */}
       <View className="flex-row items-center justify-between px-4 py-3 border-b border-outline-200">
         {/* Left side: Icons */}
         <HStack space="md" className='items-center'>
           <TouchableOpacity onPress={() => router.push('/')}>        
-            <Home className="w-6 h-6" />
+            <Home className="w-6 h-6 stroke-primary-600" />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => router.push('/test-collections')}>        
             <BookOpen className="w-6 h-6 stroke-primary-600" />
