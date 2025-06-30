@@ -93,7 +93,7 @@ const CollectionsScreen = () => {
     };
     
     toast.show({
-      placement: 'top',
+      placement: 'bottom',
       render: ({ id }) => {
         const toastId = 'toast-' + id;
         return (
