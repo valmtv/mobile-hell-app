@@ -38,7 +38,7 @@ export default function HomeScreen() {
   };
 
   const navigateToCreateTestCollection = () => {
-    router.push('/create-test-collection');
+    router.push('/test-collections/new');
   };
 
   if (authLoading || !userToken || !isTokenValid) {
